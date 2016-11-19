@@ -1,16 +1,56 @@
-﻿@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+﻿
+<div class="form-horizontal">
+    <div class="form-group">
+		<label for="Name" class="control-label col-md-2">Name</label>
+        <div class="col-md-10"> 
+            <input type="text" id="Name">
+        </div>
+		<label id="NameLabel" class="control-label col-md-2">Nominal</label>
+    </div>
+	<div class="form-group">
+		<label for="Nominal" class="control-label col-md-2">Nominal</label>
+        <div class="col-md-10">
+            <input type="text" id="Nominal">
+        </div>
+		<label id="NominalReader" class="control-label col-md-2">Nominal</label>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="ReadValue" type="submit" value="Submit" class="btn btn-default" />
         </div>
     </div>
-}
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+	$(document).ready(function(){
+		$('#ReadValue').click(ReadValue);
+		$('#NameLabel').hide();
+		$("#NominalReader").hide();
+	});
+	function ReadValue(){
+		var formData = { Name: $("#Name").val(), numberToTranslate: $("#Nominal").val()};
+		$.ajax({ 
+			url : "@Url.Action("TranslateNumber", "Home")",
+			dataType : 'json',
+			type: "GET",
+			data: formData,
+			success: function(data, status){
+					$('#NameLabel').text(data["Name"]);
+					$("#NominalReader").text(data["StringValue"]);
+					$('#NameLabel').show();
+					$("#NominalReader").show();
+					$("#Name").hide()
+					$("#Nominal").hide()
+					$('#ReadValue').hide()
+			},
+			error: function (jqXHR, textStatus, errorThrown){
+		 	
+		    }
+		});
+	}
+	</script>
 }
+
+

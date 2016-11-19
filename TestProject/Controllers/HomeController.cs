@@ -15,13 +15,17 @@ namespace TestProject.Controllers
 			return View("Index");
 		}
 
-		public JsonResult TransLateNumber(string numberToTranslate)
+		public JsonResult TransLateNumber(string Name, string numberToTranslate)
 		{
-			if (String.IsNullOrEmpty(numberToTranslate)) return Json(new { Value = numberToTranslate, StringValue = String.Empty}, JsonRequestBehavior.AllowGet);
+			if (String.IsNullOrEmpty(numberToTranslate)) return Json(new { Name = Name, Value = numberToTranslate, StringValue = String.Empty}, JsonRequestBehavior.AllowGet);
 			CharReader charReaderUtility = new CharReader(numberToTranslate);
-			return Json(new { Value = numberToTranslate, StringValue = charReaderUtility.DataToPrint }, JsonRequestBehavior.AllowGet);
+			return Json(new { Name = Name,  Value = numberToTranslate, StringValue = charReaderUtility.DataToPrint }, JsonRequestBehavior.AllowGet);
 
 		}
 
+		public ActionResult CreateNewReaderRequest()
+		{
+			return View("Create");
+		}
 	}
 }
