@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
+using Newtonsoft.Json;
 
 namespace TestProject.Controllers
 {
@@ -11,13 +12,16 @@ namespace TestProject.Controllers
 	{
 		public ActionResult Index()
 		{
-			var mvcName = typeof(Controller).Assembly.GetName();
-			var isMono = Type.GetType("Mono.Runtime") != null;
-
-			ViewData["Version"] = mvcName.Version.Major + "." + mvcName.Version.Minor;
-			ViewData["Runtime"] = isMono ? "Mono" : ".NET";
-
-			return View();
+			return View("Index");
 		}
+
+		public JsonResult TransLateNumber(string numberToTranslate)
+		{
+			if (String.IsNullOrEmpty(numberToTranslate)) return Json(new { Value = numberToTranslate, StringValue = String.Empty}, JsonRequestBehavior.AllowGet);
+			CharReader charReaderUtility = new CharReader(numberToTranslate);
+			return Json(new { Value = numberToTranslate, StringValue = charReaderUtility.DataToPrint }, JsonRequestBehavior.AllowGet);
+
+		}
+
 	}
 }
