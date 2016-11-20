@@ -21,10 +21,10 @@ namespace TestProject.Controllers
         /// <summary>
         /// The input
         /// </summary>
-        private string input;
+		private List<String> input = new List<string>();
 		private string dataToPrint;
 
-		public object DataToPrint
+		public String DataToPrint
 		{
 			get { return this.dataToPrint; }
 			set { this.dataToPrint = value.ToString();}
@@ -36,9 +36,24 @@ namespace TestProject.Controllers
         /// <param name="input">The input.</param>
         public CharReader(string input)
         {
-            this.input = input;
-            this.SplitString();
-            this.ReadChar();
+			input = input.Replace(",", "");
+			List<String> inputString = input.Split('.').ToList();
+			foreach (String inputData in inputString){
+				List<String> resultSplit = this.SplitString(inputData);
+				if (!String.IsNullOrEmpty(this.DataToPrint) && !String.IsNullOrEmpty(inputData) && resultSplit.Count() > 0 && !inputData.Replace("0", "").Equals("")){
+					this.DataToPrint += " And ";
+				}
+				this.ReadChar(resultSplit);
+				if (!String.IsNullOrEmpty(this.DataToPrint) && !String.IsNullOrEmpty(inputData) && resultSplit.Count() > 0 && inputString.IndexOf(inputData).Equals(0))
+				{
+					this.DataToPrint += " Dollars ";
+				}
+			}
+			if (inputString.Count() > 1)
+			{
+				if (!inputString.ElementAt(1).Replace("0", "").Equals("")) this.DataToPrint += " Cents";
+			}
+            
         }
 
         /// <summary>
@@ -55,25 +70,26 @@ namespace TestProject.Controllers
         /// This method split string with 3 char per each string result.
         /// example : 1234 will be 2 strings 1, 234
         /// </summary>
-         private void SplitString()
+		private List<String> SplitString(String inputString)
         {
-            this.ResultSplit = new List<string>();
-            char[] reverse = this.input.Reverse().ToArray();
+            List<String> resultSplit = new List<string>();
+			char[] reverse = inputString.Reverse().ToArray();
             string input2 = new string(reverse);
             for (var i = 0; i < input2.Length; i += 3)
             {
-                this.ResultSplit.Add(input2.Substring(i, Math.Min(3, input2.Length - i)));
-            } 
+				resultSplit.Add(input2.Substring(i, Math.Min(3, input2.Length - i)));
+            }
+			return resultSplit;
         }
 
          /// <summary>
          /// Reads the char.
          /// Reads the string and convert it to words.
          /// </summary>
-         private void ReadChar()
+         private void ReadChar(List<String> resultSplit)
          {
-             int marks = this.ResultSplit.Count();
-             string[] resultSplitArray = this.ResultSplit.ToArray();
+			int marks = resultSplit.Count();
+			string[] resultSplitArray = resultSplit.ToArray();
              for (int y = marks - 1; y > -1; y--)
              {
                  if (resultSplitArray[y].Replace("0", "").Length > 0)
