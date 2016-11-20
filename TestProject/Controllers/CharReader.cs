@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="CharReader.cs" company="Mitrais">
-//     Copyright (c) Mitrais. All rights reserved.
+// <copyright file="CharReader.cs" company="">
+//     Copyright. All rights reserved.
 // </copyright>
 // <author>Syahrul Munif</author>
 //-----------------------------------------------------------------------
@@ -18,10 +18,7 @@ namespace TestProject.Controllers
     /// </summary>
     public class CharReader
     {
-        /// <summary>
-        /// The input
-        /// </summary>
-		private List<String> input = new List<string>();
+        
 		private string dataToPrint;
 
 		public String DataToPrint
