@@ -4,11 +4,9 @@
 # build
 [Oo]bj/
 [Bb]in/
-packages/
 TestResults/
 
 # globs
-Makefile.in
 *.DS_Store
 *.sln.cache
 *.suo
@@ -16,15 +14,10 @@ Makefile.in
 *.pidb
 *.userprefs
 *.usertasks
-config.log
-config.make
-config.status
 aclocal.m4
-install-sh
 autom4te.cache/
 *.user
 *.tar.gz
-tarballs/
 test-results/
 Thumbs.db
 
